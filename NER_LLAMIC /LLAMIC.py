@@ -7,7 +7,7 @@ from tqdm import tqdm
 import argparse
 import re
 import textwrap
-from llms import LLaMAS
+from llms import LLAMIC
 
 class NpEncoder(json.JSONEncoder):
     """
