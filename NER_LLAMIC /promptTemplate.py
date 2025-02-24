@@ -36,7 +36,7 @@ List_Diseases: {{diseases_list}}
 The final JSON is:
 """
 
-review_disease_icd_pair_prompt_v2 = f"""
+review_disease_icd_pair_prompt = f"""
 Given the following sentence: "{{text}}", identify whether the entity "{{entity}}" represents a disease and if it correctly matches the category "{{description}}".  
 
 Respond based on the following guidelines:  
