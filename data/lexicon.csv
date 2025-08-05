@@ -1,0 +1,12 @@
+terminology,description
+I20,Angina pectoris
+I21,Acute myocardial infarction
+I22,Subsequent ST elevation (STEMI) and non-ST elevation (NSTEMI) myocardial infarction
+I23,Certain current complications following ST elevation (STEMI) and non-ST elevation (NSTEMI) myocardial infarction (within the 28 day period)
+I24,Other acute ischemic heart diseases
+I25,Chronic ischemic heart disease
+I60,Nontraumatic subarachnoid hemorrhage
+I61,Nontraumatic intracerebral hemorrhage
+I62,Other and unspecified nontraumatic intracranial hemorrhage
+I63,Cerebral infarction
+I64,Stroke not specified as haemorrhage or infarction
