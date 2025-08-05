@@ -1,0 +1,3 @@
+id,documents,entities
+1," year old woman with a history of CAD, HTN, HLD, afib on dispyramide status post ___ ___","[{'entity': 'CAD', 'icd': 'I25', 'start': 34, 'end': 37}]"
+2,"a ___ has a long history of left MCA stroke","[{'entity': 'left MCA stroke', 'icd': 'I63', 'start': 28, 'end': 43}]"
