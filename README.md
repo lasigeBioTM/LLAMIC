@@ -1,7 +1,10 @@
 # LLaMIC : LLaMA Model Applied to MIMIC  
 **Entity Recognition and Linking for Cardiovascular and Cerebrovascular Conditions in Free-text EHRs**
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)  [![HuggingFace](https://img.shields.io/badge/HuggingFace-🤗-yellow)](https://huggingface.co/)  [![ICD-10](https://img.shields.io/badge/standard-ICD--10-green)](https://icd.who.int/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)  
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-🤗-yellow)](https://huggingface.co/)  
+[![ICD-10](https://img.shields.io/badge/standard-ICD--10-green)](https://icd.who.int/)  
+#[![MIMIC-IV Notes License](https://img.shields.io/badge/license-MIT--0-yellowgreen)](https://physionet.org/content/mimic-iv-note/2.2/)
 
 ---
 
@@ -43,6 +46,9 @@ Run the LLaMIC on HPC with SLURM:
 ```bash
 sbatch call_llamic.sh
 ```
+
+## Results
+The fine-tuned LAMIC model was evaluated on cardiovascular and cerebrovascular diseases and ICD-10 entity linking tasks. In MIMIC-IV notes dataset, it achieved precision scores of 0.83 (strict mode) and 0.89 (lenient mode) for disease identification. For ICD-10 linking, the model reached a precision of approximately 0.82.
 
 
 
