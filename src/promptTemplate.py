@@ -53,3 +53,54 @@ Category: "{{description}}"
 
 ### Response:
 """
+
+generation_drug_prompt_template = f"""
+Given the following text, identify and extract all medically relevant drugs related with coronary diseases and strokes related with coronary diseases and strokes explicitly contained.  
+
+Explicit mentions refer to drugs related with coronary diseases and strokes related with coronary diseases and strokes named directly within the text, preserving exact wording, formatting, and order.  
+
+Avoid mentions of doses, symptoms, medical devices, or medical procedures, even if they are associated with the drug. Focus exclusively on identifying drugs related with coronary diseases and strokes related with coronary diseases and strokes names.
+
+Return the output in JSON format with the key "drugs_terminologies", and the value as a list of extracted drugs related with coronary diseases and strokes related with coronary diseases and strokes, maintaining the exact original wording and order.  
+If no drugs related with coronary diseases and strokes are found in a particular part, return an empty list in the JSON.  
+
+Text: "{{text}}"  
+
+The final JSON is:
+"""
+
+generate_id_per_entity_drug_prompt = f"""
+Given the following a list of drugs related with coronary diseases and strokes generate a set of related pairs. 
+Each pair should consist of a drug name (identical to the one provided in the list) and its respective MeSH ID. 
+The MeSH ID must best represent the drug based on your knowledge of MeSH.
+
+The MeSH ID must have MeSH + unique number.
+
+Ensure that the drug name in the output pairs matches exactly as given in the input List_drugs related with coronary diseases and strokes.
+
+Each pair should be formatted as: (Drug Name, MeSH ID).
+
+Return the generated pairs in a structured JSON format where the key is "Pairs" and the value is a list of pairs (with the format: [(Drug Name, MeSH ID), (Drug Name, MeSH ID)]).
+
+### Input:
+List_drugs related with coronary diseases and strokes: {{drug_list}}
+
+The final JSON is:
+"""
+
+review_drug_mesh_pair_prompt = f"""
+Given the following sentence: "{{text}}", identify whether the entity "{{entity}}" represents a drug and if it correctly matches the category "{{description}}".  
+
+Respond based on the following guidelines:  
+1. If the entity "{{entity}}" is not a drug, select option "1".  
+2. If the entity "{{entity}}" is a drug, but does not fit the category "{{description}}", select option "2".  
+3. If the entity "{{entity}}" is a drug and matches the category "{{description}}", select option "3".  
+
+Return the response in a structured JSON format where the key is "Result" and the value is the selected option as an integer.  
+
+### Input:  
+Entity: "{{entity}}"  
+Category: "{{description}}"  
+
+### Response:
+"""
