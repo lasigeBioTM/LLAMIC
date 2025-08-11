@@ -1,7 +1,7 @@
 
 import re
 import json
-from promptTemplate import review_disease_icd_pair_prompt
+from promptTemplate import review_disease_icd_pair_prompt, review_drug_mesh_pair_prompt
 
 
 class ReviewGenerator:
@@ -11,12 +11,18 @@ class ReviewGenerator:
         self.max_new_tokens = 100
         self.max_input_tokens = max_input_tokens
 
-    def review_disease(self, note, entity, description):
+    def review_entity(self, note, entity, description, entity_type):
         try:
-            prompt = review_disease_icd_pair_prompt \
-                .replace("{text}", note) \
-                .replace("{entity}", entity) \
-                .replace("{description}", description)
+            if entity_type == "drug":
+                prompt = review_drug_mesh_pair_prompt \
+                    .replace("{text}", note) \
+                    .replace("{entity}", entity) \
+                    .replace("{description}", description)
+            else:
+                prompt = review_disease_icd_pair_prompt \
+                    .replace("{text}", note) \
+                    .replace("{entity}", entity) \
+                    .replace("{description}", description)
 
             response = self.llm.generate(
                 prompt,
@@ -45,17 +51,18 @@ class ReviewGenerator:
             return "", f"Unexpected error: {str(e)}"
 
 class Review:
-    def __init__(self, llm, lexicon, max_input_tokens, device):
+    def __init__(self, llm, lexicon, max_input_tokens, entity_type, device):
         self.llm = llm
         self.lexicon = lexicon
         self.max_input_tokens = max_input_tokens
+        self.entity_type = entity_type
         self.device = device
         self.disease_review = ReviewGenerator(llm=llm, device=device, max_input_tokens=max_input_tokens)
 
     def call(self, document: str, pairs: str):
         extracted_pairs = re.findall(r"\('([^']+)', '([^']+)'\)", pairs)
         if not extracted_pairs:
-            return [], ["No valid (entity, ICD) pairs found"]
+            return [], ["No valid (entity, ID) pairs found"]
 
         doc_results = []
         doc_errors = []
@@ -65,12 +72,20 @@ class Review:
             matches = list(re.finditer(pattern, document, flags=re.IGNORECASE))
 
             if not matches:
-                print(f"⚠️ Entity '{entity}' not found in document", flush=True)
-                doc_results.append({
-                    "entity": entity,
-                    "icd": icd,
-                    "result": "Entity not found in document"
-                })
+                print(f"Entity '{entity}' not found in document", flush=True)
+                if self.entity_type == "disease":
+                    doc_results.append({
+                        "entity": entity,
+                        "icd": icd,
+                        "result": "Entity not found in document"
+                    })
+                else:
+                    doc_results.append({
+                        "entity": entity,
+                        "mesh": icd,
+                        "result": "Entity not found in document"
+                    })
+
                 doc_errors.append("Entity not found in document")
                 continue
 
@@ -85,15 +100,24 @@ class Review:
                         masked_text = masked_text[:o_start] + "_" * (o_end - o_start) + masked_text[o_end:]
 
                 if description != "Unknown":
-                    result, error = self.disease_review.review_disease(masked_text, entity, description)
+                    result, error = self.disease_review.review_entity(masked_text, entity, description, self.entity_type)
                     if result != 3:
                         continue
-                    result_entry = {
-                        "entity": entity,
-                        "icd": icd,
-                        "start": start,
-                        "end": end
-                    }
+                    if self.entity_type == "disease":
+                        result_entry = {
+                            "entity": entity,
+                            "icd": icd,
+                            "start": start,
+                            "end": end
+                        }
+                    else:
+                        result_entry = {
+                            "entity": entity,
+                            "mesh": icd,
+                            "start": start,
+                            "end": end
+                        }
+
                     doc_results.append(result_entry)
                     doc_errors.append(error)
                 else:
