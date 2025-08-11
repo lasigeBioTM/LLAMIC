@@ -1,13 +1,15 @@
 import re
 import json
-from promptTemplate import generation_prompt_template, generate_icd_per_disease_prompt
+from promptTemplate import generation_prompt_template, generate_icd_per_disease_prompt, generate_id_per_entity_drug_prompt, generation_drug_prompt_template
 from typing import List
+import tqdm
 
 class PairGenerator:
-    def __init__(self, llm_disease_extraction, llm_icd_mapping, max_input_tokens: int):
-        self.llm = llm_disease_extraction
-        self.llm_icd = llm_icd_mapping
+    def __init__(self, llm_entity_extraction, llm_id_mapping, max_input_tokens: int, entity_type: str):
+        self.llm = llm_entity_extraction
+        self.llm_id = llm_id_mapping
         self.max_input_tokens = max_input_tokens
+        self.entity_type = entity_type
 
     def _extract_json_from_response(self, text, key_expected):
         pattern = r"\{(.*?)\}"
@@ -27,40 +29,54 @@ class PairGenerator:
 
         return data[key_expected], None
 
-    def _check_diseases(self, note, response):
-        diseases, error = self._extract_json_from_response(response, "cvd_terminologies")
-        if not diseases:
+    def _check_entities(self, note, response, entity_type="disease"):
+        if entity_type == "disease":
+            entities, error = self._extract_json_from_response(response, "cvd_terminologies")
+        else:
+            entities, error = self._extract_json_from_response(response, "drugs_terminologies")
+        if not entities:
             return "", error or "Empty disease list"
 
-        diseases = list(set(diseases))
-        matched = [d for d in diseases if re.search(rf'\b{re.escape(d)}\b', note, re.IGNORECASE)]
-        error_count = len([d for d in diseases if d.lower() not in note.lower()])
-        error_msg = f"Diseases not found in note: {error_count}"
+        entities = list(set(entities))
+        matched = [d for d in entities if re.search(rf'\b{re.escape(d)}\b', note, re.IGNORECASE)]
+        error_count = len([d for d in entities if d.lower() not in note.lower()])
+        error_msg = f"Entities not found in note: {error_count}"
 
         if not matched:
             return "", error_msg
 
         return ', '.join(matched), error_msg
 
-    def _check_pairs(self, disease_list_str, response):
+    def _check_pairs(self, entity_list_str, response):
         pairs_raw, error = self._extract_json_from_response(response, "Pairs")
         if error or not pairs_raw:
             return "", error or "Empty pairs list"
 
-        disease_list = [d.strip().lower() for d in disease_list_str.split(",")]
+        entity_list = [d.strip().lower() for d in entity_list_str.split(",")]
         valid_pairs = []
         invalid_count = 0
 
-        for item in pairs_raw:
-            if isinstance(item, list) and len(item) == 2:
-                disease, icd = item
-                if (disease.lower() in disease_list and len(icd) == 3 
-                        and icd[0].isalpha() and icd[1:].isdigit()):
-                    valid_pairs.append((disease, icd))
+        if self.entity_type == "disease":
+            for item in pairs_raw:
+                if isinstance(item, list) and len(item) == 2:
+                    disease, icd = item
+                    if (disease.lower() in entity_list and len(icd) == 3
+                            and icd[0].isalpha() and icd[1:].isdigit()):
+                        valid_pairs.append((disease, icd))
+                    else:
+                        invalid_count += 1
                 else:
                     invalid_count += 1
-            else:
-                invalid_count += 1
+        else:
+            for item in pairs_raw:
+                if isinstance(item, list) and len(item) == 2:
+                    drug, mesh_id = item
+                    if (drug.lower() in entity_list and mesh_id.startswith("D")):
+                        valid_pairs.append((drug, mesh_id))
+                    else:
+                        invalid_count += 1
+                else:
+                    invalid_count += 1
 
         if not valid_pairs:
             return "", f"No valid pairs found, errors: {invalid_count}"
@@ -78,19 +94,23 @@ class PairGenerator:
 
     def generate_pairs(self, notes: List[str], n_iterations: int):
         batch_size = len(notes)
-        all_diseases_list = [[] for _ in range(batch_size)]
-        disease_errors_list = [{} for _ in range(batch_size)]
-        icd_errors_list = [{} for _ in range(batch_size)]
+        all_entities_list = [[] for _ in range(batch_size)]
+        entity_errors_list = [{} for _ in range(batch_size)]
+        id_errors_list = [{} for _ in range(batch_size)]
         updated_notes = notes.copy()
 
-        # ==== PHASE 1: Disease generation ====
+        # ==== PHASE 1: Entity generation ====
 
         for i in range(n_iterations):
             prompts = []
             max_new_tokens_list = []
 
             for note in updated_notes:
-                prompt = generation_prompt_template.replace('{text}', note)
+                if self.entity_type == "disease":
+                    prompt = generation_prompt_template.replace('{text}', note)
+                else:
+                    prompt = generation_drug_prompt_template.replace('{text}', note)
+
                 prompts.append(prompt)
                 max_new_tokens = 100 + len(note.split()) // 3
                 max_new_tokens_list.append(max_new_tokens)
@@ -99,68 +119,72 @@ class PairGenerator:
             responses = self.llm.generate_batch(prompts, self.max_input_tokens, max_new_tokens)
 
             for idx, response in enumerate(responses):
-                diseases_str, error = self._check_diseases(notes[idx], response)
-                disease_errors_list[idx][i] = error
-                print(f"[Phase 1] Note {idx} | Diseases: {diseases_str} | Error: {error}", flush=True)
+                entities_str, error = self._check_entities(notes[idx], response, self.entity_type)
+                entity_errors_list[idx][i] = error
 
-                if diseases_str:
-                    extracted = [d.strip() for d in diseases_str.split(",")]
-                    all_diseases_list[idx].extend(extracted)
+                if entities_str:
+                    extracted = [d.strip() for d in entities_str.split(",")]
+                    all_entities_list[idx].extend(extracted)
                     updated_notes[idx] = self._remove_extracted_terms(updated_notes[idx], extracted)
 
-        all_diseases_list = [list(set(ds)) for ds in all_diseases_list]
+        all_entities_list = [list(set(ds)) for ds in all_entities_list]
 
-        # ==== PHASE 2: Pair generation (disease, ICD) ====
+        # ==== PHASE 2: Pair generation (entity, id) ====
         final_pairs_list = []
 
-        for idx, (note, diseases) in enumerate(zip(notes, all_diseases_list)):
-            if not diseases:
+        for idx, (note, entities) in enumerate(zip(notes, all_entities_list)):
+            if not entities:
                 final_pairs_list.append("")
                 continue
 
             all_pairs = []
             chunk_size = 12
             max_pair_iterations = 5
-            remaining_diseases = diseases.copy()
+            remaining_entities = entities.copy()
 
             for i in range(max_pair_iterations):
-                if not remaining_diseases:
+                if not remaining_entities:
                     break
 
                 chunk_prompts = []
-                chunk_disease_chunks = []
+                chunk_entity_chunks = []
 
-                for chunk in self._split_chunks(remaining_diseases, chunk_size):
-                    disease_str = ', '.join(chunk)
-                    prompt = generate_icd_per_disease_prompt \
-                        .replace('{text}', note) \
-                        .replace('{diseases_list}', disease_str)
+                for chunk in self._split_chunks(remaining_entities, chunk_size):
+                    entity_str = ', '.join(chunk)
+                    if self.entity_type == "disease":
+                        prompt = generate_icd_per_disease_prompt \
+                            .replace('{text}', note) \
+                            .replace('{diseases_list}', entity_str)
+                    else:
+                        prompt = generate_id_per_entity_drug_prompt \
+                            .replace('{text}', note) \
+                            .replace('{drug_list}', entity_str)
 
                     chunk_prompts.append(prompt)
-                    chunk_disease_chunks.append(chunk)
+                    chunk_entity_chunks.append(chunk)
 
-                responses = self.llm_icd.generate_batch(chunk_prompts, self.max_input_tokens, max_new_tokens)
+                responses = self.llm_id.generate_batch(chunk_prompts, self.max_input_tokens, max_new_tokens)                
 
-                for resp, chunk, chunk_prompt_idx in zip(responses, chunk_disease_chunks, range(len(responses))):
+                for resp, chunk, chunk_prompt_idx in zip(responses, chunk_entity_chunks, range(len(responses))):
                     pairs_str, error = self._check_pairs(', '.join(chunk), resp)
-                    icd_errors_list[idx][i * chunk_size + chunk_prompt_idx] = error
+                    id_errors_list[idx][i * chunk_size + chunk_prompt_idx] = error
                     if pairs_str:
                         all_pairs.append(pairs_str)
                         matched = re.findall(r"\('([^']*)', '([^']*)'\)", pairs_str)
-                        matched_diseases = [d for d, _ in matched]
-                        remaining_diseases = [
-                            d for d in remaining_diseases
-                            if not any(re.fullmatch(rf'\b{re.escape(md)}\b', d, re.IGNORECASE) for md in matched_diseases)
+                        matched_entities = [d for d, _ in matched]
+                        remaining_entities = [
+                            d for d in remaining_entities
+                            if not any(re.fullmatch(rf'\b{re.escape(md)}\b', d, re.IGNORECASE) for md in matched_entities)
                         ]
 
             final_pairs_list.append(', '.join(all_pairs))
 
-        return final_pairs_list, icd_errors_list, disease_errors_list
+        return final_pairs_list, id_errors_list, entity_errors_list
 
 
 class Generate:
-    def __init__(self, llm_disease, llm_icd, max_input_tokens):
-        self.generator = PairGenerator(llm_disease, llm_icd, max_input_tokens)
+    def __init__(self, llm_entity, llm_id, max_input_tokens, entity_type):
+        self.generator = PairGenerator(llm_entity, llm_id, max_input_tokens, entity_type)
 
     def call(self, notes, n_iterations):
         result = self.generator.generate_pairs(notes, n_iterations)
