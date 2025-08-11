@@ -49,8 +49,16 @@ def split_text_preserving_words(query_row: str, max_length: int = 2636) -> list:
 def main(args):
     lexicon = Lexicon(args.lexicon_path)
     llamas = LLAMIC(args, lexicon)
-    data = pd.read_csv(args.input_file)
+    if args.debug:
+        print(f"Running in {args.run_mode} mode with entity type: {args.entity_type}", flush=True)
+    try:         # atualizar no github!!
+        data = pd.read_csv(args.input_file, compression='gzip')
+    except Exception as e:
+        data = pd.read_csv(args.input_file)
 
+    if args.debug:
+        print(f"Loaded {len(data)} records from {args.input_file}", flush=True)
+        
     results = []
     errors_total = []
 
@@ -58,6 +66,9 @@ def main(args):
     output_file = os.path.join(args.output_dir, "results.json")
     errors_file = os.path.join(args.output_dir, "errors.json")
     processed_ids = set()
+    if args.debug:
+        print(f"Output file: {output_file}", flush=True)
+        print(f"Errors file: {errors_file}", flush=True)
 
     for file_path, key in [(errors_file, "errors"), (output_file, "results")]:
         if not os.path.exists(file_path):
@@ -82,7 +93,9 @@ def main(args):
         return textwrap.wrap(text, width=args.window_size)
 
 
-    for i in tqdm(range(0, len(pending_ids), chunk_size), desc="Processing IDs in batch"):
+    # for i in tqdm(range(0, len(pending_ids), chunk_size), desc="Processing IDs in batch"):
+    for i in range(0, len(pending_ids), chunk_size):
+        print(f"Processing batch {i // chunk_size + 1}", flush=True)
         batch_ids = pending_ids[i:i + chunk_size]
         batch_texts = []
         id_to_chunks = {}
@@ -105,7 +118,16 @@ def main(args):
             offsets[idx] = cumulative_length
             cumulative_length += len(chunk)
 
+        if args.debug:
+            print("\n[DEBUG] Offsets:", flush=True)
+            for idx, offset in offsets.items():
+                print(f"  Chunk {idx}: Offset {offset}", flush=True)
         batch_results, batch_errors = llamas.call(batch_texts)
+        if args.debug:
+            print("\n[DEBUG] Batch results:", flush=True)
+            print(batch_results, flush=True)
+            print("\n[DEBUG] Batch errors:", flush=True)
+            print(batch_errors, flush=True)
 
         flat_results = []
         for i, res in enumerate(batch_results):
@@ -142,17 +164,23 @@ def main(args):
             chunk_errors = flat_errors[result_idx:result_idx + chunk_count]
             result_idx += chunk_count
 
-            predicted_diseases = []
+            predicted_entities = []
             for res in chunk_results:
                 if isinstance(res, list):
-                    predicted_diseases.extend(res)
+                    predicted_entities.extend(res)
                 else:
-                    predicted_diseases.append(res)
+                    predicted_entities.append(res)
 
-            results.append({
-                "id": int(hadm_id),
-                "diseases_predicted": predicted_diseases
-            })
+            if args.entity_type == "drug":
+                results.append({
+                    "id": int(hadm_id),
+                    "drugs_predicted": predicted_entities
+                })
+            else:
+                results.append({
+                    "id": int(hadm_id),
+                    "diseases_predicted": predicted_entities
+                })
 
             errors_total.append({
                 "id": int(hadm_id),
@@ -220,17 +248,21 @@ def main(args):
 
         for result in results_data:
             hadm_id = int(result['id'])
-            predicted_diseases = result['diseases_predicted']
-            true_diseases = true_entities_map.get(hadm_id, [])
+            if args.entity_type == "drug":
+                predicted_entities = result['drugs_predicted']
+            else:
+                predicted_entities = result['diseases_predicted']
+            
+            true_entities = true_entities_map.get(hadm_id, [])
 
-            list_predicted.append(predicted_diseases)
-            list_true.append(true_diseases)
+            list_predicted.append(predicted_entities)
+            list_true.append(true_entities)
 
         if args.debug:
             print("\n[DEBUG] Final results:", flush=True)
-            print("Predicted diseases:", list_predicted, flush=True)
-            print("True diseases:", list_true, flush=True)
-        evaluator = EvaluatorNER_NEL(list_predicted, list_true)
+            print("Predicted entities:", list_predicted, flush=True)
+            print("True entities:", list_true, flush=True)
+        evaluator = EvaluatorNER_NEL(list_predicted, list_true, args.entity_type)
         evaluator.run()
 
 
@@ -252,6 +284,7 @@ if __name__ == '__main__':
     parser.add_argument("--n_iterations", type=int, default=1, help="Number of iterations for lexicon enhancement.")
     parser.add_argument("--window_size", type=int, default=2636, help="Sliding window size for long document splitting.")
     parser.add_argument("--max_input_tokens", type=int, default=1024, help="Maximum input tokens for the model.")
+    parser.add_argument("--entity_type", type=str, choices=["disease", "drug"], default="disease", help="Entity type to process: disease or drug.")
 
     # Execution control
     parser.add_argument("--run_mode", type=str, choices=["PREDICT", "EVAL"], default="PREDICT", help="Execution mode: prediction or evaluation.")
