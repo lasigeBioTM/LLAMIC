@@ -93,8 +93,7 @@ def main(args):
         return textwrap.wrap(text, width=args.window_size)
 
 
-    # for i in tqdm(range(0, len(pending_ids), chunk_size), desc="Processing IDs in batch"):
-    for i in range(0, len(pending_ids), chunk_size):
+    for i in tqdm(range(0, len(pending_ids), chunk_size), desc="Processing IDs in batch"):
         print(f"Processing batch {i // chunk_size + 1}", flush=True)
         batch_ids = pending_ids[i:i + chunk_size]
         batch_texts = []
