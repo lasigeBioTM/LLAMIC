@@ -15,7 +15,7 @@ outdir=runs/$task
 mkdir -p $outdir
 
 python3 src/LLaMIC.py --model_name_or_path_ner $MODEL_PATH_NER --model_name_or_path_nel $MODEL_PATH_NEL --model_name_or_path_review $MODEL_PATH_REVIEW\
-  --input_file $datadir/example.csv --lexicon_path $datadir/lexicon.csv \
+  --input_file $datadir/example.csv --lexicon_path $datadir/lexicon.csv --entity_type disease \
   --run_mode EVAL \
   --save_annotations yes --save_chunk_size 1 \
   --n_iterations 1 --window_size 2636 --max_input_tokens 1024 \
