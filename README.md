@@ -29,7 +29,7 @@ Clone the repository and install required dependencies in your environment:
 pip install -r requirements.txt
 ```
 
-Set the model and lexicon paths in `call_llamic.sh`: Select the entity type (disease or drug) and the LLaMA model for NER, NEL, and review phases. Options include the LLaMA 3.1 8B model (llama3.1) or the path of your own fine-tuned checkpoints. Update the domain lexicon (lexicon.csv) with target ICD-10 codes and descriptions. Adjust the iteration parameter for NER if needed (n_iterations).
+Set the model and lexicon paths in `call_llamic.sh`: Select the entity type (disease or drug) and specify the LLaMA model to use for the NER, NEL, and review phases. You can choose the LLaMA 3.1 8B model (llama3.1) or provide the path to your own fine-tuned checkpoints. Update the domain lexicon (lexicon.csv) with the target ICD-10 codes for diseases or MeSH codes and descriptions for drugs. Adjust the n_iterations parameter for NER if needed.
 
 ```bash
 --entity_type disease/drug
