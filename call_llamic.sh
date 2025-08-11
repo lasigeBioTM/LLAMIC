@@ -6,8 +6,8 @@
 
 task=MIMIC_example
 huggingface-cli login --token YOUR_TOKEN
-MODEL_PATH_NER=llama3.1
-MODEL_PATH_NEL=llama3.1
+MODEL_PATH_NER=llama3.1 #models/llama_ner-4290
+MODEL_PATH_NEL=llama3.1 #models/llama_nel-1500
 MODEL_PATH_REVIEW=llama3.1
 
 datadir=data
