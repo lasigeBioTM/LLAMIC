@@ -23,7 +23,7 @@ class LLMBase:
 
     def _initialize_llm(self):
         try:
-            torch.cuda.empty_cache()  # ====
+            torch.cuda.empty_cache()
             bnb_config = BitsAndBytesConfig(
                 load_in_4bit=True,
                 bnb_4bit_use_double_quant=False,
@@ -120,6 +120,8 @@ class LLAMIC:
         self.n_iterations = args.n_iterations
         self.max_input_tokens = args.max_input_tokens
         self.window_size = args.window_size
+        self.entity_type = args.entity_type
+        self.debug = args.debug
         model_cache = {}
 
         # NER
@@ -140,11 +142,15 @@ class LLAMIC:
             model_cache[review_path] = LLMBase(review_path)
         self.llm_review = model_cache[review_path]
 
-        self.pairs_generator = Generate(self.llm_ner, self.llm_nel, args.max_input_tokens)
-        self.review = Review(self.llm_review, lexicon, args.max_input_tokens, "cuda")
+        self.pairs_generator = Generate(self.llm_ner, self.llm_nel, args.max_input_tokens, self.entity_type)
+        self.review = Review(self.llm_review, lexicon, args.max_input_tokens, self.entity_type, "cuda")
 
     def call(self, documents):
-        generated_pairs, icd_errors, disease_errors = self.pairs_generator.call(documents, self.n_iterations)
+        generated_pairs, icd_errors, entity_errors = self.pairs_generator.call(documents, self.n_iterations)
+        if self.debug:
+            print("Generated pairs:", generated_pairs, flush=True)
+            print("ICD errors:", icd_errors, flush=True)
+            print("Entity errors:", entity_errors, flush=True)
         review_results_list = [[] for _ in range(len(documents))]
         errors_list = [[] for _ in range(len(documents))]
 
@@ -158,5 +164,5 @@ class LLAMIC:
             review_results_list[idx].append(review_result)
             errors_list[idx].append(review_error)
 
-        return review_results_list, [disease_errors, icd_errors, errors_list]
+        return review_results_list, [entity_errors, icd_errors, errors_list]
 
