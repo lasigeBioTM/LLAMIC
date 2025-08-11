@@ -3,9 +3,10 @@ from tabulate import tabulate
 
 
 class EvaluatorNER_NEL:
-    def __init__(self, predicted: List[List[Dict]], gold: List[List[Dict]]):
+    def __init__(self, predicted: List[List[Dict]], gold: List[List[Dict]], entity_type: str):
         self.predicted = predicted
         self.gold = gold
+        self.entity_type = entity_type
 
     def normalize_text(self, text: str) -> str:
         return text.lower().strip()
@@ -66,15 +67,24 @@ class EvaluatorNER_NEL:
         }
 
     def _evaluate_nel(self, ner_tp: set) -> Dict:
-        # Criar dicionários (span_normalizado → icd) apenas com spans válidos
-        gold_dict = {
-            self.normalize_span(g): g.get('icd')
-            for g in self.gold if self.normalize_span(g) is not None
-        }
-        pred_dict = {
-            self.normalize_span(p): p.get('icd')
-            for p in self.predicted if self.normalize_span(p) is not None
-        }
+        if self.entity_type == "disease":
+            gold_dict = {
+                self.normalize_span(g): g.get('icd')
+                for g in self.gold if self.normalize_span(g) is not None
+            }
+            pred_dict = {
+                self.normalize_span(p): p.get('icd')
+                for p in self.predicted if self.normalize_span(p) is not None
+            }
+        else:
+            gold_dict = {
+                self.normalize_span(g): g.get('mesh')
+                for g in self.gold if self.normalize_span(g) is not None
+            }
+            pred_dict = {
+                self.normalize_span(p): p.get('mesh')
+                for p in self.predicted if self.normalize_span(p) is not None
+            }
 
         nel_tp = sum(
             1 for span in ner_tp
@@ -112,7 +122,7 @@ class EvaluatorNER_NEL:
             pred_i = self.predicted[i]
             gold_i = self.gold[i]
 
-            evaluator_i = EvaluatorNER_NEL(pred_i, gold_i)
+            evaluator_i = EvaluatorNER_NEL(pred_i, gold_i, self.entity_type)
 
             ner_results = []
             for mode in ['strict', 'lenient']:
@@ -125,7 +135,6 @@ class EvaluatorNER_NEL:
 
             ner_results_all.append(ner_results)
 
-        # Macro NER (para ambos modos)
         ner_mean = []
         for mode_i in [0, 1]:  # 0 = strict, 1 = lenient
             mode_label = ["strict", "lenient"][mode_i]
@@ -137,7 +146,6 @@ class EvaluatorNER_NEL:
                     )
             ner_mean.append(mean_mode)
 
-        # Macro NEL
         keys = nel_results_all[0].keys()
         nel_mean = {
             key: round(sum(m[key] for m in nel_results_all) / n, 4)
