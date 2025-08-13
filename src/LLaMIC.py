@@ -43,7 +43,6 @@ class NpEncoder(json.JSONEncoder):
         return super(NpEncoder, self).default(obj)
 
 def split_text_preserving_words(query_row: str, max_length: int = 2636) -> list:
-    text = re.sub(r'\s+', ' ', query_row['hospital_course'])
     return textwrap.wrap(text, width=max_length)
 
 def main(args):
