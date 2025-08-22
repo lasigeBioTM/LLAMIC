@@ -1,5 +1,5 @@
 # LLaMIC : LLaMA Model Applied to MIMIC  
-**Entity Recognition and Linking for Cardiovascular and Cerebrovascular Conditions in Free-text EHRs**
+**Entity Recognition, Linking, and Relation Extraction for Cardiovascular and Cerebrovascular Diseases and Therapeutic Drugs in EHR CLinical Notes**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)  
 [![HuggingFace](https://img.shields.io/badge/HuggingFace-🤗-yellow)](https://huggingface.co/)  
@@ -9,7 +9,7 @@
 
 ## Overview
 
-**LLaMIC** is a modular pipeline designed for clinical entity recognition and standardization, focusing on identifying **cardiovascular and cerebrovascular disease (CCD) mentions**, their therapeutic drugs (CCDt), and binary relations in unstructured electronic health records (EHR) free-text notes.
+**LLaMIC** is a modular pipeline designed for clinical entity recognition and standardization, focusing on identifying **cardiovascular and cerebrovascular disease (CCD) mentions**, their therapeutic drugs (CCDt), and binary relations in unstructured electronic health records (EHR) clinical notes.
 
 LLaMIC combines instruction-tuned large language models (LLMs) with rule-based lexicons to achieve:
 
