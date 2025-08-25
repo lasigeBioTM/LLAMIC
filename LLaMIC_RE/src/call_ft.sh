@@ -6,7 +6,7 @@
 
 task=MIMIC_example
 huggingface-cli login --token YOUR_TOKEN
-
+$wandb_key = key
 datadir=../data
 outdir=$task
 mkdir -p $outdir
@@ -37,6 +37,6 @@ python3 fine_tuning.py\
   --lora_r 8 \
   --lora_alpha 32 \
   --lora_dropout 0.05 \
-  --wandb_key 10d01227e8b38c8246ee43154516d49f6c152037 \
+  --wandb_key $wandb_key \
   --output_dir $outdir --debug
 
