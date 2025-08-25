@@ -179,7 +179,9 @@ class DrugNERProcessor:
                         end = int(type_info[2])
                         text = parts[2]
                         entities_info[tid] = {"entity": text, "start": start, "end": end}
-
+                        
+                mesh_targets = ['D001241', 'D006493', 'D017984', 'D005996', 'D009543']
+                icd_targets = ['I20','I21','I22','I23','I24','I25','I60','I61','I62','I63','I64']
                 for line in lines:
                     parts = line.strip().split('\t')
                     if parts[0].startswith('N'):
@@ -196,23 +198,35 @@ class DrugNERProcessor:
 
                         if id_t.startswith('MESH:'):
                             id_t = id_t[5:]
-                            entities_predicted.append({
-                                "entity": name,
-                                "id": id_t,
-                                "index_start": start,
-                                "index_end": end
-                            })
+                            if id_t in mesh_targets:
+                                entities_predicted.append({
+                                    "entity": name,
+                                    "id": id_t,
+                                    "index_start": start,
+                                    "index_end": end
+                                })
                         elif id_t.startswith('DOID:'):
                             doid = id_t[5:]
                             icd = ontology.get_icd_from_doid(f'http://purl.obolibrary.org/obo/DOID_{doid}')
-                            entities_predicted.append({
-                                "entity": name,
-                                "id": icd,
-                                "doid": doid,
-                                "index_start": start,
-                                "index_end": end
-                            })
-
+                            if isinstance(icd, list):
+                                for c in icd:
+                                    if c in icd_targets:
+                                        entities_predicted.append({
+                                            "entity": name,
+                                            "id": c,
+                                            "doid": doid,
+                                            "index_start": start,
+                                            "index_end": end
+                                        })
+                            elif icd in icd_targets:
+                                entities_predicted.append({
+                                    "entity": name,
+                                    "id": icd,
+                                    "doid": doid,
+                                    "index_start": start,
+                                    "index_end": end
+                                })
+          
                 if self.type == 'drug':
                     self.list_total.append({
                         'id': int(hadm_id),
