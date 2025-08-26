@@ -4,4 +4,4 @@
 
 ## Implementation
 
-<img src="assets/correction.png" alt="LLaMIC Pipeline" width="500"/>
+<img src="assets/correction.png" alt="LLaMIC Pipeline" width="800"/>
