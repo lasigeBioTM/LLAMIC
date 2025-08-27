@@ -1,0 +1,104 @@
+MESH:D009543|MESH:D008012|MESH:C546419 - 0.2%/lidocaine 1% ointment
+MESH:C587251 - abciximab
+MESH:D006493 - heparin sodium
+MESH:D007548 - isosorbide dinitrate
+MESH:D000077550 - ivabradine
+MESH:D005996 - nitroglycerin sr
+MESH:D012977 - sodium nitrite
+MESH:D000069458 - *nf* ranolazine er
+MESH:D001241 - inv-aspirin
+MESH:D009543 - nifedipine 2% ointment
+MESH:D006493 - heparin flush
+MESH:D006493 - heparin lock flush
+MESH:C000711671 - enoxaparin sodium
+MESH:D009543 - nifedipine (bulk)
+MESH:D009543 - nifedipine oint
+MESH:D009543|MESH:D008012|MESH:C546419 - nifedipine/lidocaine
+MESH:D000241 - adenosine
+MESH:D000077486 - brilinta
+MESH:D009543 - nifedipine cr
+MESH:D000077764 - dronedarone
+MESH:C549068 - entresto
+MESH:D009543 - nifedipine 0.2% ointment
+MESH:D005996 - nitroglycerin 0.4% ointment
+MESH:D017984 - enoxaparin (prophylaxis)
+MESH:C065166 - imd
+MESH:D009543 - nifedipine 0.2% oint
+MESH:D001241 - aspirin ec
+MESH:D009543 - nifedipine 2%
+MESH:D007548 - isosorbide dinitrate sa
+MESH:D009543 - nifedipine
+MESH:D005996 - nitroglycerin patch
+MESH:C043282 - nitroglycerin/lidocaine
+MESH:D000255 - adenosine disodium triphosphate
+MESH:D005996 - nitroglycerin oin
+MESH:D007548 - isosorbide dinitrate er
+MESH:D009543 - nifedipine cream
+MESH:D005996 - nitroglycerin ointment 0.2%
+MESH:D009543 - nifedipine (bulk) 0.2%
+MESH:D005297 - ranolazine er
+MESH:D000077785 - tenecteplase
+MESH:D009543 - nifedipine cream 2%
+MESH:D017984 - inv enoxaparin
+MESH:D000077542 - eptifibatide
+MESH:D009543 - nifedipine (bulk) ointment
+MESH:D008012 - lidocaine 0.5%/ep
+MESH:D000069458 - ranolazine
+MESH:D000077542 - eptifibatide 75mg btl
+MESH:D017984 - enoxaparin (treatment)
+MESH:D005437 - flucytosine suspension
+MESH:D000077466 - tirofiban
+MESH:D005437 - flucytosine
+MESH:D005996 - nitroglycerin
+MESH:D017984 - enoxaparin
+MESH:D000077425 - fondaparinux sodium
+MESH:D006493 - heparin desensitization
+MESH:D001241 - aspirin
+MESH:D000068799 - prasugrel
+MESH:D006493 - heparin
+MESH:D000077425 - fondaparinux
+MESH:C446481 - aliskiren
+MESH:D001241 - aspirin desensitization
+MESH:D005996 - nitroglycerin ointment  2%
+MESH:D005996 - nitroglycerin ointment
+MESH:D001241 - aspirin (chewable)
+MESH:D009543|MESH:D008012|MESH:C546419 - nifedipine / lidocaine ointment
+MESH:D010869 - pindolol
+MESH:D000077425 - fondaparin
+MESH:D006493 - hep
+MESH:D006493 - hepar
+MESH:D006493 - hepa
+MESH:D006493 - heparin
+MESH:D006493 - hepari
+MESH:D005437 - flucytos
+MESH:D001241 - asp
+MESH:D001241 - aspiri
+MESH:D001241 - aspir
+MESH:D001241 - aspi
+MESH:D017984 - inv-enoxaparin
+MESH:D017984 - enoxap
+MESH:D017984 - enoxapar
+MESH:D017984 - enoxapari
+MESH:D017984 - enoxapa
+MESH:D017984 - enoxa
+MESH:D017984 - enox
+MESH:D017984 - enoxaparin
+MESH:D017984 - enoxaprin
+MESH:D005996 - nitroglycerin sl
+MESH:D005996 - nitrolingual
+MESH:D005996 - nitroglyceri
+MESH:D009543 - nifer
+MESH:D009543 - nifedipine 2% rectal
+MESH:D009543 - nif
+MESH:D009543 - nifedipin
+MESH:D009543 - nife
+MESH:D009543 - nifedi
+MESH:D009543 - nifed
+MESH:D009543 - nifedipi
+MESH:D009543 - nifedipine
+MESH:D009543 - nifedip
+MESH:D007548 - isosorbide dini
+MESH:D007548 - isosorbide dinitra
+MESH:D007548 - isosorbide dinitrat
+MESH:D007548 - isosorbide din
+MESH:D007548 - isosorbide dinitr
