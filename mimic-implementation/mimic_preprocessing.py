@@ -223,6 +223,8 @@ class Preprocessing:
 
         dc_summary['hospital_course'] = dc_summary['hospital_course'].str.replace('\n', ' ')
         dc_summary['hospital_course'] = dc_summary['hospital_course'].str.replace('"', ' ')
+        dc_summary['hospital_course'] = dc_summary['hospital_course'].apply(lambda x: re.sub(r'\s+', ' ', x).strip())
+        
         logging.info("Hospital_course done: %d, Original: %d", len(dc_summary), len(df_notes_filtered))
         return dc_summary
 
