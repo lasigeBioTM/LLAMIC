@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=MIMIC_NER_example
-#SBATCH --output=MIMIC_NER_example.out
+#SBATCH --job-name=MIMIC_RE_ft
+#SBATCH --output=MIMIC_RE_ft.out
 #SBATCH --gres=gpu
 #SBATCH --partition=compute
 

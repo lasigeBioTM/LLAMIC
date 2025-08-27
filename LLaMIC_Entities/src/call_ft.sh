@@ -1,8 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=ft
-#SBATCH --output=ft.out
-#SBATCH --ntasks=1
-#SBATCH --time=168:00:00
+#SBATCH --job-name=MIMIC_NER_ft
+#SBATCH --output=MIMIC_NER_ft.out
 #SBATCH --gres=gpu
 #SBATCH --partition=compute
 
