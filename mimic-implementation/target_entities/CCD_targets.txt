@@ -1,0 +1,233 @@
+411|I24 - Acute coronary occlusion without myocardial infarction
+I24 - Acute coronary thrombosis not resulting in myocardial infarction
+I24 - Acute ischemic heart disease, unspecified
+410|I21 - Acute myocardial infarction of anterolateral wall, initial episode of care
+410|I21 - Acute myocardial infarction of anterolateral wall, subsequent episode of care
+410|I21 - Acute myocardial infarction of inferolateral wall, initial episode of care
+410|I21 - Acute myocardial infarction of inferolateral wall, subsequent episode of care
+410|I21 - Acute myocardial infarction of inferoposterior wall, initial episode of care
+410|I21 - Acute myocardial infarction of inferoposterior wall, subsequent episode of care
+410|I21 - Acute myocardial infarction of other anterior wall, episode of care unspecified
+410|I21 - Acute myocardial infarction of other anterior wall, initial episode of care
+410|I21 - Acute myocardial infarction of other anterior wall, subsequent episode of care
+410|I21 - Acute myocardial infarction of other inferior wall, episode of care unspecified
+410|I21 - Acute myocardial infarction of other inferior wall, initial episode of care
+410|I21 - Acute myocardial infarction of other inferior wall, subsequent episode of care
+410|I21 - Acute myocardial infarction of other lateral wall, initial episode of care
+410|I21 - Acute myocardial infarction of other lateral wall, subsequent episode of care
+410|I21 - Acute myocardial infarction of other specified sites, initial episode of care
+410|I21 - Acute myocardial infarction of other specified sites, subsequent episode of care
+410|I21 - Acute myocardial infarction of unspecified site, episode of care unspecified
+410|I21 - Acute myocardial infarction of unspecified site, initial episode of care
+410|I21 - Acute myocardial infarction of unspecified site, subsequent episode of care
+I21 - Acute myocardial infarction, unspecified
+414|I25 - Aneurysm of coronary vessels
+I25 - Aneurysm of heart
+414|I25 - Aneurysm of heart (wall)
+413|I20 - Angina decubitus
+I20 - Angina pectoris with documented spasm
+I20 - Angina pectoris, unspecified
+I25 - Atherosclerosis of autologous artery coronary artery bypass graft(s) with angina pectoris with documented spasm
+I25 - Atherosclerosis of autologous artery coronary artery bypass graft(s) with other forms of angina pectoris
+I25 - Atherosclerosis of autologous artery coronary artery bypass graft(s) with unspecified angina pectoris
+I25 - Atherosclerosis of autologous artery coronary artery bypass graft(s) with unstable angina pectoris
+I25 - Atherosclerosis of autologous vein coronary artery bypass graft(s) with angina pectoris with documented spasm
+I25 - Atherosclerosis of autologous vein coronary artery bypass graft(s) with other forms of angina pectoris
+I25 - Atherosclerosis of autologous vein coronary artery bypass graft(s) with unspecified angina pectoris
+I25 - Atherosclerosis of autologous vein coronary artery bypass graft(s) with unstable angina pectoris
+I25 - Atherosclerosis of coronary artery bypass graft(s) without angina pectoris
+I25 - Atherosclerosis of coronary artery bypass graft(s), unspecified, with other forms of angina pectoris
+I25 - Atherosclerosis of coronary artery bypass graft(s), unspecified, with unspecified angina pectoris
+I25 - Atherosclerosis of coronary artery bypass graft(s), unspecified, with unstable angina pectoris
+I25 - Atherosclerosis of native coronary artery of transplanted heart with other forms of angina pectoris
+I25 - Atherosclerosis of native coronary artery of transplanted heart without angina pectoris
+I25 - Atherosclerosis of other coronary artery bypass graft(s) with other forms of angina pectoris
+I25 - Atherosclerosis of other coronary artery bypass graft(s) with unstable angina pectoris
+I25 - Atherosclerotic heart disease of native coronary artery with angina pectoris with documented spasm
+I25 - Atherosclerotic heart disease of native coronary artery with other forms of angina pectoris
+I25 - Atherosclerotic heart disease of native coronary artery with unspecified angina pectoris
+I25 - Atherosclerotic heart disease of native coronary artery with unstable angina pectoris
+I25 - Atherosclerotic heart disease of native coronary artery without angina pectoris
+434|I63 - Cerebral artery occlusion, unspecified with cerebral infarction
+434|I63 - Cerebral artery occlusion, unspecified without mention of cerebral infarction
+434|I63 - Cerebral embolism with cerebral infarction
+434|I63 - Cerebral embolism without mention of cerebral infarction
+I63 - Cerebral infarction due to cerebral venous thrombosis, nonpyogenic
+I63 - Cerebral infarction due to embolism of basilar artery
+I63 - Cerebral infarction due to embolism of bilateral anterior cerebral arteries
+I63 - Cerebral infarction due to embolism of bilateral carotid arteries
+I63 - Cerebral infarction due to embolism of bilateral cerebellar arteries
+I63 - Cerebral infarction due to embolism of bilateral middle cerebral arteries
+I63 - Cerebral infarction due to embolism of bilateral posterior cerebral arteries
+I63 - Cerebral infarction due to embolism of bilateral vertebral arteries
+I63 - Cerebral infarction due to embolism of left anterior cerebral artery
+I63 - Cerebral infarction due to embolism of left carotid artery
+I63 - Cerebral infarction due to embolism of left cerebellar artery
+I63 - Cerebral infarction due to embolism of left middle cerebral artery
+I63 - Cerebral infarction due to embolism of left posterior cerebral artery
+I63 - Cerebral infarction due to embolism of left vertebral artery
+I63 - Cerebral infarction due to embolism of other cerebral artery
+I63 - Cerebral infarction due to embolism of other precerebral artery
+I63 - Cerebral infarction due to embolism of right anterior cerebral artery
+I63 - Cerebral infarction due to embolism of right carotid artery
+I63 - Cerebral infarction due to embolism of right cerebellar artery
+I63 - Cerebral infarction due to embolism of right middle cerebral artery
+I63 - Cerebral infarction due to embolism of right posterior cerebral artery
+I63 - Cerebral infarction due to embolism of right vertebral artery
+I63 - Cerebral infarction due to embolism of unspecified anterior cerebral artery
+I63 - Cerebral infarction due to embolism of unspecified carotid artery
+I63 - Cerebral infarction due to embolism of unspecified cerebellar artery
+I63 - Cerebral infarction due to embolism of unspecified cerebral artery
+I63 - Cerebral infarction due to embolism of unspecified middle cerebral artery
+I63 - Cerebral infarction due to embolism of unspecified posterior cerebral artery
+I63 - Cerebral infarction due to embolism of unspecified precerebral artery
+I63 - Cerebral infarction due to embolism of unspecified vertebral artery
+I63 - Cerebral infarction due to thrombosis of basilar artery
+I63 - Cerebral infarction due to thrombosis of bilateral cerebellar arteries
+I63 - Cerebral infarction due to thrombosis of bilateral middle cerebral arteries
+I63 - Cerebral infarction due to thrombosis of bilateral posterior cerebral arteries
+I63 - Cerebral infarction due to thrombosis of bilateral vertebral arteries
+I63 - Cerebral infarction due to thrombosis of left anterior cerebral artery
+I63 - Cerebral infarction due to thrombosis of left carotid artery
+I63 - Cerebral infarction due to thrombosis of left cerebellar artery
+I63 - Cerebral infarction due to thrombosis of left middle cerebral artery
+I63 - Cerebral infarction due to thrombosis of left posterior cerebral artery
+I63 - Cerebral infarction due to thrombosis of left vertebral artery
+I63 - Cerebral infarction due to thrombosis of other cerebral artery
+I63 - Cerebral infarction due to thrombosis of other precerebral artery
+I63 - Cerebral infarction due to thrombosis of right anterior cerebral artery
+I63 - Cerebral infarction due to thrombosis of right carotid artery
+I63 - Cerebral infarction due to thrombosis of right cerebellar artery
+I63 - Cerebral infarction due to thrombosis of right middle cerebral artery
+I63 - Cerebral infarction due to thrombosis of right posterior cerebral artery
+I63 - Cerebral infarction due to thrombosis of right vertebral artery
+I63 - Cerebral infarction due to thrombosis of unspecified carotid artery
+I63 - Cerebral infarction due to thrombosis of unspecified cerebellar artery
+I63 - Cerebral infarction due to thrombosis of unspecified cerebral artery
+I63 - Cerebral infarction due to thrombosis of unspecified middle cerebral artery
+I63 - Cerebral infarction due to thrombosis of unspecified precerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of basilar artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of bilateral anterior cerebral arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of bilateral carotid arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of bilateral cerebellar arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of bilateral middle cerebral arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of bilateral posterior cerebral arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of bilateral vertebral arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of left anterior cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of left carotid arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of left cerebellar artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of left middle cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of left posterior cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of left vertebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of other cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of other precerebral arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of right anterior cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of right carotid arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of right cerebellar artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of right middle cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of right posterior cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of right vertebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of unspecified anterior cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of unspecified carotid artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of unspecified cerebellar artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of unspecified cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of unspecified posterior cerebral artery
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of unspecified precerebral arteries
+I63 - Cerebral infarction due to unspecified occlusion or stenosis of unspecified vertebral artery
+I63 - Cerebral infarction, unspecified
+434|I63 - Cerebral thrombosis with cerebral infarction
+434|I63 - Cerebral thrombosis without mention of cerebral infarction
+414|I25 - Chronic ischemic heart disease, unspecified
+414|I25 - Chronic total occlusion of coronary artery
+I25 - Coronary artery aneurysm
+I25 - Coronary artery dissection
+414|I25 - Coronary atherosclerosis due to calcified coronary lesion
+414|I25 - Coronary atherosclerosis due to lipid rich plaque
+414|I25 - Coronary atherosclerosis of artery bypass graft
+414|I25 - Coronary atherosclerosis of autologous vein bypass graft
+414|I25 - Coronary atherosclerosis of bypass graft (artery) (vein) of transplanted heart
+414|I25 - Coronary atherosclerosis of native coronary artery
+414|I25 - Coronary atherosclerosis of unspecified bypass graft
+414|I25 - Coronary atherosclerosis of unspecified type of vessel, native or graft
+414|I25 - Dissection of coronary artery
+I24 - Dressler's syndrome
+411|I24 - Intermediate coronary syndrome
+431|I61 - Intracerebral hemorrhage
+I25 - Ischemic cardiomyopathy
+I21 - Myocardial infarction type 2
+I21 - Non-ST elevation (NSTEMI) myocardial infarction
+I62 - Nontraumatic acute subdural hemorrhage
+I62 - Nontraumatic chronic subdural hemorrhage
+432|I62 - Nontraumatic extradural hemorrhage
+I61 - Nontraumatic intracerebral hemorrhage in brain stem
+I61 - Nontraumatic intracerebral hemorrhage in cerebellum
+I61 - Nontraumatic intracerebral hemorrhage in hemisphere, cortical
+I61 - Nontraumatic intracerebral hemorrhage in hemisphere, subcortical
+I61 - Nontraumatic intracerebral hemorrhage in hemisphere, unspecified
+I61 - Nontraumatic intracerebral hemorrhage, intraventricular
+I61 - Nontraumatic intracerebral hemorrhage, multiple localized
+I61 - Nontraumatic intracerebral hemorrhage, unspecified
+I62 - Nontraumatic intracranial hemorrhage, unspecified
+I62 - Nontraumatic subacute subdural hemorrhage
+I60 - Nontraumatic subarachnoid hemorrhage from anterior communicating artery
+I60 - Nontraumatic subarachnoid hemorrhage from basilar artery
+I60 - Nontraumatic subarachnoid hemorrhage from left anterior communicating artery
+I60 - Nontraumatic subarachnoid hemorrhage from left carotid siphon and bifurcation
+I60 - Nontraumatic subarachnoid hemorrhage from left middle cerebral artery
+I60 - Nontraumatic subarachnoid hemorrhage from left posterior communicating artery
+I60 - Nontraumatic subarachnoid hemorrhage from left vertebral artery
+I60 - Nontraumatic subarachnoid hemorrhage from other intracranial arteries
+I60 - Nontraumatic subarachnoid hemorrhage from right anterior communicating artery
+I60 - Nontraumatic subarachnoid hemorrhage from right carotid siphon and bifurcation
+I60 - Nontraumatic subarachnoid hemorrhage from right middle cerebral artery
+I60 - Nontraumatic subarachnoid hemorrhage from right posterior communicating artery
+I60 - Nontraumatic subarachnoid hemorrhage from right vertebral artery
+I60 - Nontraumatic subarachnoid hemorrhage from unspecified anterior communicating artery
+I60 - Nontraumatic subarachnoid hemorrhage from unspecified intracranial artery
+I60 - Nontraumatic subarachnoid hemorrhage from unspecified middle cerebral artery
+I60 - Nontraumatic subarachnoid hemorrhage, unspecified
+I62 - Nontraumatic subdural hemorrhage, unspecified
+412|I25 - Old myocardial infarction
+411|I24 - Other acute and subacute forms of ischemic heart disease, other
+413|I20 - Other and unspecified angina pectoris
+414|I25 - Other aneurysm of heart
+I63 - Other cerebral infarction
+I63 - Other cerebral infarction due to occlusion or stenosis of small artery
+I23 - Other current complications following acute myocardial infarction
+I24 - Other forms of acute ischemic heart disease
+I20 - Other forms of angina pectoris
+I25 - Other forms of chronic ischemic heart disease
+I21 - Other myocardial infarction type
+I61 - Other nontraumatic intracerebral hemorrhage
+I60 - Other nontraumatic subarachnoid hemorrhage
+414|I25 - Other specified forms of chronic ischemic heart disease
+I23 - Postinfarction angina
+411|I24 - Postmyocardial infarction syndrome
+413|I20 - Prinzmetal angina
+I23 - Rupture of chordae tendineae as current complication following acute myocardial infarction
+I23 - Rupture of papillary muscle as current complication following acute myocardial infarction
+I21 - ST elevation (STEMI) myocardial infarction involving left anterior descending coronary artery
+I21 - ST elevation (STEMI) myocardial infarction involving left circumflex coronary artery
+I21 - ST elevation (STEMI) myocardial infarction involving left main coronary artery
+I21 - ST elevation (STEMI) myocardial infarction involving other coronary artery of anterior wall
+I21 - ST elevation (STEMI) myocardial infarction involving other coronary artery of inferior wall
+I21 - ST elevation (STEMI) myocardial infarction involving other sites
+I21 - ST elevation (STEMI) myocardial infarction involving right coronary artery
+I21 - ST elevation (STEMI) myocardial infarction of unspecified site
+I25 - Silent myocardial ischemia
+430|I60 - Subarachnoid hemorrhage
+432|I62 - Subdural hemorrhage
+410|I21 - Subendocardial infarction, episode of care unspecified
+410|I21 - Subendocardial infarction, initial episode of care
+410|I21 - Subendocardial infarction, subsequent episode of care
+I22 - Subsequent ST elevation (STEMI) myocardial infarction of anterior wall
+I22 - Subsequent ST elevation (STEMI) myocardial infarction of inferior wall
+I22 - Subsequent ST elevation (STEMI) myocardial infarction of other sites
+I22 - Subsequent ST elevation (STEMI) myocardial infarction of unspecified site
+I22 - Subsequent non-ST elevation (NSTEMI) myocardial infarction
+I23 - Thrombosis of atrium, auricular appendage, and ventricle as current complications following acute myocardial infarction
+410|I21 - True posterior wall infarction, initial episode of care
+410|I21 - True posterior wall infarction, subsequent episode of care
+432|I62 - Unspecified intracranial hemorrhage
+I20 - Unstable angina
+I23 - Ventricular septal defect as current complication following acute myocardial infarction
