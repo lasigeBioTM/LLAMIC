@@ -134,7 +134,7 @@ class Preprocessing:
 
         drugs = [line.split(' - ')[1].strip().lower() for line in lines]
 
-        # Processa os IDs removendo "MESH:" e lidando com múltiplos IDs por medicamento
+
         ids_list = []
         for line in lines:
             ids_raw = line.split(' - ')[0]  # Obtém a parte dos IDs
@@ -143,8 +143,6 @@ class Preprocessing:
 
         # conver the list in to str. if more than one id is present add |
         ids_list = ['|'.join(ids) for ids in ids_list]
-
-        # Cria um dicionário associando os medicamentos aos seus respectivos IDs
         id_mesh = {drug: ids for drug, ids in zip(drugs, ids_list)}
 
         # Load data in chunks
@@ -164,7 +162,6 @@ class Preprocessing:
         df_drugs.rename(columns={'drug': 'label'}, inplace=True)
 
         # add id MESH to the label
-        # Caso o nome não esteja no dicionário, retorna um valor padrão ou mantém apenas o nome
         df_drugs['label'] = df_drugs['label'].apply(
             lambda x: id_mesh.get(x, 'ID_NAO_ENCONTRADO') + ' - ' + x
         )
@@ -275,16 +272,24 @@ class Preprocessing:
         corpus_drug.to_csv(output_drug_path, index=False, compression="gzip")
         return corpus_disease, corpus_drug
 
+import argparse
+import logging
+import json
 
 def main():
-    #acepts the argument --config_file (the parameters json file)
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('--config_file', type=str, required=True, help='Path to the configuration file')
-    args = parser.parse_args()
-
-    with open(args.config_file, 'r') as f:
-        params_path = json.load(f)
+    # instead of reading from a json config file, define parameters here directly
+    params_path = {
+        "notes_path": "data/discharge.csv.gz",  # input clinical notes (MIMIC-IV-Notes)
+        "dimension_table_diseases_path": "data/d_icd_diagnoses.csv.gz",  # dictionary/lookup table for disease codes (MIMIC-IV: hosp)
+        "fact_table_diseases_path": "data/diagnoses_icd.csv.gz",  # actual records of diagnoses linked to patients (MIMIC-IV: hosp)
+        "fact_table_drugs_path": "data/prescriptions.csv.gz",  # actual records of prescribed drugs linked to patients (MIMIC-IV: hosp)
+        "diseases_targets_path": "target_entities/CCD_targets.txt",  # list of CCDs labels to look for
+        "drugs_targets_path": "target_entities/CCDt_targets.txt",  # list of CCDts labels to look for
+        "summary_path": "logs/summary_table.txt",  # log file where summary stats are written
+        "output_path": "clinical_notes.csv.gz",  # output file with cleaned notes
+        "output_disease_corpus": "corpus_cdd.txt",  # output corpus file only for diseases
+        "output_drug_corpus": "corpus_cddt.txt"  # output corpus file only for drugs
+    }
 
     preprocessing = Preprocessing(params_path)
 
@@ -301,19 +306,26 @@ def main():
         params_path['summary_path']
     )
 
-    df_notes = preprocessing.filter_notes_by_labels(params_path['notes_path'], df_diseases, df_drugs)
+    df_notes = preprocessing.filter_notes_by_labels(
+        params_path['notes_path'],
+        df_diseases,
+        df_drugs
+    )
 
     df_notes_filtered = preprocessing.clean_text(df_notes)
     logging.info(f"\nHead of notes filtered: {df_notes_filtered.head()}")
 
-    # save the data
+    # save the cleaned notes
     df_notes_filtered.to_csv(params_path['output_path'], index=False, compression='gzip')
 
+    # generate distribution plots and logs
     preprocessing.plot_distribution(df_notes_filtered, params_path['summary_path'])
+
+    # create balanced corpora (disease-only and drug-only)
     preprocessing.create_balanced_corpora(
-    df_notes_filtered,
-    params_path['output_disease_corpus'],
-    params_path['output_drug_corpus']
+        df_notes_filtered,
+        params_path['output_disease_corpus'],
+        params_path['output_drug_corpus']
     )
 
 
