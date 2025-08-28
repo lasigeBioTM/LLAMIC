@@ -254,7 +254,7 @@ class Preprocessing:
             with_disease.sample(n, random_state=42),
             without_disease.sample(n, random_state=42)
         ]).sample(frac=1, random_state=42)  # shuffle
-        corpus_disease = corpus_disease.rename(columns={"text": "documents", "note_id": "id"})
+        corpus_disease = corpus_disease.rename(columns={"hospital_course": "documents", "hadm_id": "id"})
 
         corpus_disease.to_csv(output_disease_path, index=False, compression="gzip")
         
@@ -267,7 +267,7 @@ class Preprocessing:
             without_drug.sample(n, random_state=42)
         ]).sample(frac=1, random_state=42)  # shuffle
 
-        corpus_drug = corpus_drug.rename(columns={"text": "documents", "note_id": "id"})
+        corpus_drug = corpus_drug.rename(columns={"hospital_course": "documents", "hadm_id": "id"})
 
         corpus_drug.to_csv(output_drug_path, index=False, compression="gzip")
         return corpus_disease, corpus_drug
@@ -287,8 +287,8 @@ def main():
         "drugs_targets_path": "target_entities/CCDt_targets.txt",  # list of CCDts labels to look for
         "summary_path": "logs/summary_table.txt",  # log file where summary stats are written
         "output_path": "clinical_notes.csv.gz",  # output file with cleaned notes
-        "output_disease_corpus": "corpus_cdd.txt",  # output corpus file only for diseases
-        "output_drug_corpus": "corpus_cddt.txt"  # output corpus file only for drugs
+        "output_disease_corpus": "corpus_cdd.csv.gz",  # output corpus file only for diseases
+        "output_drug_corpus": "corpus_cddt.csv.gz"  # output corpus file only for drugs
     }
 
     preprocessing = Preprocessing(params_path)
