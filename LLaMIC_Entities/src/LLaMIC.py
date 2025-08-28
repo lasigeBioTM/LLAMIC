@@ -88,7 +88,6 @@ def main(args):
     random.shuffle(pending_ids)
 
     def split_text_preserving_words(text):
-        text = re.sub(r'\s+', ' ', text)
         return textwrap.wrap(text, width=args.window_size)
 
 
