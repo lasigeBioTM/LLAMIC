@@ -5,7 +5,7 @@
 #SBATCH --partition=compute
 
 task=MIMIC_example
-huggingface-cli login --token YOUR_TOKEN
+hf auth login --token YOUR_TOKEN
 MODEL_PATH_PG=llama3.1
 MODEL_PATH_RC=llama3.1
 
