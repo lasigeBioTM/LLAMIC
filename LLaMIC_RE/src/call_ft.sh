@@ -11,7 +11,7 @@ outdir=../run/$task
 mkdir -p $outdir
 
 # HuggingFace and WandB login
-huggingface-cli login --token YOUR_TOKEN
+hf auth login --token YOUR_TOKEN
 wandb_key=YOUR_WANDB_KEY 
 
 python3 fine_tuning.py \
