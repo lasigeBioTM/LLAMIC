@@ -217,10 +217,11 @@ class Preprocessing:
 
         # only keep hadm_id and hospital_course
         dc_summary = dc_summary[["subject_id", "hadm_id", "hospital_course", "label_disease", "label_drug"]]
-
+        
         dc_summary['hospital_course'] = dc_summary['hospital_course'].str.replace('\n', ' ')
         dc_summary['hospital_course'] = dc_summary['hospital_course'].str.replace('"', ' ')
         dc_summary['hospital_course'] = dc_summary['hospital_course'].apply(lambda x: re.sub(r'\s+', ' ', x).strip())
+        dc_summary['hospital_course'] = " " + dc_summary['hospital_course']
         
         logging.info("Hospital_course done: %d, Original: %d", len(dc_summary), len(df_notes_filtered))
         return dc_summary
