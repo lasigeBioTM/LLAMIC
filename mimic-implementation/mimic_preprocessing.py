@@ -1,9 +1,9 @@
 import pandas as pd
-import json
-import argparse
-import re
 import logging
+from tqdm import tqdm
+import re
 import ast
+import os
 from collections import Counter
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -103,9 +103,13 @@ class Preprocessing:
         chunk_size = 500000
         filtered_chunks = []
 
-        for chunk in pd.read_csv(data_path, compression='gzip', usecols=['subject_id', 'hadm_id', 'icd_code'], chunksize=chunk_size):
+
+        for chunk in tqdm(pd.read_csv(
+                data_path, compression='gzip',
+                usecols=['subject_id', 'hadm_id', 'icd_code'],
+                chunksize=chunk_size),
+                desc="Processing diagnoses chunks"):
             chunk_filtered = chunk[chunk['icd_code'].isin(diseases_icd_codes)]
-            # in df_diseases we have the long_title, so we can add this information to the filtered chunk
             chunk_filtered = chunk_filtered.merge(df_diseases[['icd_code', 'long_title']], on='icd_code', how='left')
             chunk_filtered['label'] = chunk_filtered['icd_code'].str[:3].apply(lambda x: names_icds.get(x, 'NO_ICD_FOUND')) + ' - ' + chunk_filtered['long_title']
             filtered_chunks.append(chunk_filtered)
@@ -273,62 +277,79 @@ class Preprocessing:
         corpus_drug.to_csv(output_drug_path, index=False, compression="gzip")
         return corpus_disease, corpus_drug
 
-import argparse
-import logging
-import json
+
 
 def main():
-    # instead of reading from a json config file, define parameters here directly
+    """
+    The MIMIC-IV hosp fact table files (diagnoses_icd.csv.gz and prescriptions.csv.gz)
+    are optional. If you do not have them, the pipeline will still process the clinical
+    notes texts but will skip extracting disease or drug labels.
+    """
+    
     params_path = {
-        "notes_path": "data/discharge.csv.gz",  # input clinical notes (MIMIC-IV-Notes)
-        "dimension_table_diseases_path": "data/d_icd_diagnoses.csv.gz",  # dictionary/lookup table for disease codes (MIMIC-IV: hosp)
-        "fact_table_diseases_path": "data/diagnoses_icd.csv.gz",  # actual records of diagnoses linked to patients (MIMIC-IV: hosp)
-        "fact_table_drugs_path": "data/prescriptions.csv.gz",  # actual records of prescribed drugs linked to patients (MIMIC-IV: hosp)
-        "diseases_targets_path": "target_entities/CCD_targets.txt",  # list of CCDs labels to look for
-        "drugs_targets_path": "target_entities/CCDt_targets.txt",  # list of CCDts labels to look for
-        "summary_path": "logs/summary_table.txt",  # log file where summary stats are written
-        "output_path": "clinical_notes.csv.gz",  # output file with cleaned notes
-        "output_disease_corpus": "corpus_cdd.csv.gz",  # output corpus file only for diseases
-        "output_drug_corpus": "corpus_cddt.csv.gz"  # output corpus file only for drugs
+        "notes_path": "discharge.csv.gz",
+        "dimension_table_diseases_path": "data/d_icd_diagnoses.csv.gz", # optional
+        "fact_table_diseases_path": "data/diagnoses_icd.csv.gz",        # optional
+        "fact_table_drugs_path": "data/prescriptions.csv.gz",           # optional
+        "diseases_targets_path": "target_entities/CCD_targets.txt",
+        "drugs_targets_path": "target_entities/CCDt_targets.txt",
+        "summary_path": "logs/summary_table.txt",
+        "output_path": "clinical_notes.csv.gz",
+        "output_disease_corpus": "corpus_cdd.csv.gz",
+        "output_drug_corpus": "corpus_cddt.csv.gz"
     }
 
     preprocessing = Preprocessing(params_path)
 
-    df_diseases = preprocessing.extract_diseases(
-        params_path['dimension_table_diseases_path'],
-        params_path['fact_table_diseases_path'],
-        params_path['diseases_targets_path'],
-        params_path['summary_path']
-    )
+    df_diseases, df_drugs = None, None
 
-    df_drugs = preprocessing.extract_drugs(
-        params_path['fact_table_drugs_path'],
-        params_path['drugs_targets_path'],
-        params_path['summary_path']
-    )
+    if os.path.exists(params_path['dimension_table_diseases_path']) and os.path.exists(params_path['fact_table_diseases_path']):
+        df_diseases = preprocessing.extract_diseases(
+            params_path['dimension_table_diseases_path'],
+            params_path['fact_table_diseases_path'],
+            params_path['diseases_targets_path'],
+            params_path['summary_path']
+        )
+    else:
+        logging.warning("Skipping disease extraction (files not found).")
 
-    df_notes = preprocessing.filter_notes_by_labels(
-        params_path['notes_path'],
-        df_diseases,
-        df_drugs
-    )
+    if os.path.exists(params_path['fact_table_drugs_path']):
+        df_drugs = preprocessing.extract_drugs(
+            params_path['fact_table_drugs_path'],
+            params_path['drugs_targets_path'],
+            params_path['summary_path']
+        )
+    else:
+        logging.warning("Skipping drug extraction (files not found).")
+
+    if df_diseases is None and df_drugs is None:
+        print("No labels available, loading all notes.")
+        df_notes_chunks = pd.read_csv(
+            params_path['notes_path'], compression='gzip', chunksize=10000, usecols=['subject_id', 'hadm_id', 'text']
+        )
+        df_notes = pd.concat(df_notes_chunks, ignore_index=True)
+        df_notes['label_disease'] = [[] for _ in range(len(df_notes))]
+        df_notes['label_drug'] = [[] for _ in range(len(df_notes))]
+    else:
+        df_notes = preprocessing.filter_notes_by_labels(
+            params_path['notes_path'],
+            df_diseases if df_diseases is not None else pd.DataFrame(columns=['hadm_id','label']),
+            df_drugs if df_drugs is not None else pd.DataFrame(columns=['hadm_id','label'])
+        )
 
     df_notes_filtered = preprocessing.clean_text(df_notes)
-    logging.info(f"\nHead of notes filtered: {df_notes_filtered.head()}")
-
-    # save the cleaned notes
     df_notes_filtered.to_csv(params_path['output_path'], index=False, compression='gzip')
+    logging.info("Cleaned notes saved.")
 
-    # generate distribution plots and logs
-    preprocessing.plot_distribution(df_notes_filtered, params_path['summary_path'])
-
-    # create balanced corpora (disease-only and drug-only)
-    preprocessing.create_balanced_corpora(
-        df_notes_filtered,
-        params_path['output_disease_corpus'],
-        params_path['output_drug_corpus']
-    )
-
+    if df_diseases is not None or df_drugs is not None:
+        preprocessing.plot_distribution(df_notes_filtered, params_path['summary_path'])
+        preprocessing.create_balanced_corpora(
+            df_notes_filtered,
+            params_path['output_disease_corpus'],
+            params_path['output_drug_corpus']
+        )
+    else:
+        logging.warning("Skipping label distributions and balanced corpora (no labels available).")
 
 if __name__ == '__main__':
     main()
