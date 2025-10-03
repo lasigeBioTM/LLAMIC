@@ -6,8 +6,8 @@
 
 task=MIMIC_example
 hf auth login--token YOUR_TOKEN
-MODEL_PATH_NER=llama3.1 #models/llama_ner-4290
-MODEL_PATH_NEL=llama3.1 #models/llama_nel-1500
+MODEL_PATH_NER=llama3.1 #models/diseases_ner-4290 /drugs_ner-2140
+MODEL_PATH_NEL=llama3.1 #models/diseases_nel-1500 /drugs_nel-39645
 MODEL_PATH_REVIEW=llama3.1
 
 datadir=data
