@@ -113,7 +113,7 @@ class LLMBase:
             save_strategy=self.params["save_strategy"],
             save_steps=self.params["save_steps"],
             report_to="wandb" if self.params["use_wandb"] else None,
-            run_name=self.params["wandb_run_name"],
+            run_name=self.params["wandb_run_name"] + option,
             gradient_checkpointing=self.params["gradient_checkpointing"],
             lr_scheduler_type=self.params["lr_scheduler_type"],
             warmup_ratio=self.params["warmup_ratio"],
@@ -349,6 +349,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
