@@ -94,40 +94,6 @@ class LLMBase:
 
     def generate(self, query: str, max_new_tokens: int, relation_list: list = None) -> str:
         formatted_query = self.format_prompt(query)
-        try:
-            inputs = self.tokenizer(
-                formatted_query,
-                return_tensors="pt",
-                truncation=True,
-                max_length=512 if "sequenceclassification" in self.model.__class__.__name__.lower() else 1024,
-            )
-            input_ids = inputs.input_ids.to(self.model.device)
-            attention_mask = inputs.attention_mask.to(self.model.device)
-        except Exception as e:
-            logger.exception("Error tokenizing the query: %s", e)
-            raise
-
-        try:
-            if "sequenceclassification" in self.model.__class__.__name__.lower():
-                logits = self.model(input_ids=input_ids, attention_mask=attention_mask).logits
-                generated_text = str(logits.argmax(dim=-1).item())
-            else:
-                outputs = self.model.generate(
-                    input_ids,
-                    max_new_tokens=max_new_tokens,
-                    eos_token_id=self.tokenizer.eos_token_id,
-                    pad_token_id=self.tokenizer.pad_token_id,
-                )
-                response_tokens = outputs[0][input_ids.shape[-1]:]
-                generated_text = self.tokenizer.decode(response_tokens, skip_special_tokens=True)
-        except Exception as e:
-            logger.exception("Error generating response: %s", e)
-            raise
-
-        return generated_text
-
-    def generate(self, query: str, max_new_tokens: int, relation_list: list = None) -> str:
-        formatted_query = self.format_prompt(query)
 
         try:
             inputs = self.tokenizer(
@@ -269,3 +235,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     main(args)
+
