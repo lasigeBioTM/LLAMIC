@@ -111,7 +111,7 @@ class LLMBase:
             save_strategy=self.params["save_strategy"],
             save_steps=self.params["save_steps"],
             report_to="wandb" if self.params["use_wandb"] else None,
-            run_name=self.params["wandb_run_name"],
+            run_name=f"{self.params['wandb_run_name']}_{option}", ##
             gradient_checkpointing=self.params["gradient_checkpointing"],
             lr_scheduler_type=self.params["lr_scheduler_type"],
             warmup_ratio=self.params["warmup_ratio"],
@@ -136,7 +136,7 @@ class LLMBase:
 
         torch.cuda.empty_cache()
         trainer.train()
-        self.tokenizer.save_pretrained(self.params["output_dir"])
+        self.tokenizer.save_pretrained(f"{self.params['output_dir']}_{option}") ##
 
 
 def main():
@@ -413,9 +413,10 @@ def main():
     for i in range(100):
         print(f"Train example {i}: {train_dataset[i]['documents']}")
         print(f"relations: {train_dataset[i]['relations']}")
-
+    llm = LLMBase(vars(args))   ##
     llm.fine_tune(train_dataset, eval_dataset, vars(args), option="rc")
 
 
 if __name__ == "__main__":
     main()
+
