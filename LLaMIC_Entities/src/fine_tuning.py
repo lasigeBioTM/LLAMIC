@@ -342,13 +342,13 @@ def main():
         print(f"Train example {i}: {train_dataset[i]['documents']}")
         print(f"Entities: {train_dataset[i]['entities']}")
 
-    Inicializa LLM e fine-tune
     llm = LLMBase(vars(args))
     llm.fine_tune(train_dataset, eval_dataset, vars(args), option ="nel")
 
 
 if __name__ == "__main__":
     main()
+
 
 
 
