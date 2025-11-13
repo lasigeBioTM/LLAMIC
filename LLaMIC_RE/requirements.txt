@@ -1,6 +1,15 @@
-numpy==2.3.2
-pandas==2.3.1
+# Python version: 3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]
+# Platform: Linux-6.8.0-71-generic-x86_64-with-glibc2.39
+# Architecture: ('64bit', 'ELF')
+numpy==1.26.4
+pandas==2.2.3
 tabulate==0.9.0
 torch==2.5.1
 tqdm==4.67.1
 transformers==4.46.3
+datasets==3.1.0
+peft==0.13.2
+bitsandbytes==0.44.1
+accelerate==1.1.1
+wandb==0.19.7
+safetensors==0.4.5
